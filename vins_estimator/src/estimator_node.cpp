@@ -271,7 +271,7 @@ void process()
             auto img_msg = measurement.second;
             double dx = 0, dy = 0, dz = 0, rx = 0, ry = 0, rz = 0;
 
-            //遍历该组中的各帧imu数据，进行预积分
+            //遍历该组中的各帧imu数据，进行预积分 预积分就是积分每两帧IMU数据的相关变量（在imu体坐标系下）
             for (auto &imu_msg : measurement.first)
             {
                 double t = imu_msg->header.stamp.toSec(); // 最新IMU数据的时间戳
