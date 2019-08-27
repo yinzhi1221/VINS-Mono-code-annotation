@@ -34,7 +34,8 @@ class IntegrationBase
         gyr_buf.push_back(gyr);
         propagate(dt, acc, gyr);
     }
-
+    
+    // 将两帧图像之间的IMU观测值重新积分得到 位置 速度 旋转 的积分,积分起点是上一帧图像时刻
     void repropagate(const Eigen::Vector3d &_linearized_ba, const Eigen::Vector3d &_linearized_bg)
     {
         sum_dt = 0.0;
@@ -48,9 +49,10 @@ class IntegrationBase
         jacobian.setIdentity();
         covariance.setZero();
         for (int i = 0; i < static_cast<int>(dt_buf.size()); i++)
-            propagate(dt_buf[i], acc_buf[i], gyr_buf[i]);
+            propagate(dt_buf[i], acc_buf[i], gyr_buf[i]); // 相邻两个IMU时刻的积分，积分起点是上一个IMU观测时刻
     }
-
+    
+    // 参照公式（27）
     void midPointIntegration(double _dt, 
                             const Eigen::Vector3d &_acc_0, const Eigen::Vector3d &_gyr_0,
                             const Eigen::Vector3d &_acc_1, const Eigen::Vector3d &_gyr_1,
@@ -128,6 +130,8 @@ class IntegrationBase
     }
 
     // 计算两个相邻imu时刻之间的位移速度旋转增量， 参阅论文中公式(23) （25） 和 （27）
+    // 注意每次积分完以后会将下一次积分区间左边界 （acc_0 gyr_0） 更新为当前积分的右边 （_acc_1 _gyr_1）
+    // 这两个变量都在此类中定义 参见代码
     void propagate(double _dt, const Eigen::Vector3d &_acc_1, const Eigen::Vector3d &_gyr_1)
     {
         dt = _dt;
