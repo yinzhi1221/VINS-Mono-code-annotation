@@ -359,7 +359,7 @@ void process()
             map<int, vector<pair<int, Eigen::Matrix<double, 7, 1>>>> image; // 为什么键值是一个vector啊，一个id的特征点对应一个vector，难道是因为可能有多个相机
             for (unsigned int i = 0; i < img_msg->points.size(); i++)
             {
-                int v = img_msg->channels[0].values[i] + 0.5; // ？？？这是什么操作
+                int v = img_msg->channels[0].values[i] + 0.5; // 第i个特征点的ID值。 如果存在多个相机，xyz p_u p_v velocity_x velocity_y 在每个相机上不同，所以具有不同id。如，如果有两个相机 id = 1, 2 对应空间中第一个特征点，但分别在两个相机上。                       
                 int feature_id = v / NUM_OF_CAM;
                 int camera_id = v % NUM_OF_CAM;
                 double x = img_msg->points[i].x;
