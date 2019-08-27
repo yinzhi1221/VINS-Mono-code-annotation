@@ -16,7 +16,7 @@
 Estimator estimator;
 
 std::condition_variable con;
-double current_time = -1;
+double current_time = -1;       // 已经具有估值的时刻，不是新观测到数据的时刻
 queue<sensor_msgs::ImuConstPtr> imu_buf;
 queue<sensor_msgs::PointCloudConstPtr> feature_buf;
 queue<sensor_msgs::PointCloudConstPtr> relo_buf; // 订阅pose graph node发布的回环帧数据，存到relo_buf队列中，供重定位使用
