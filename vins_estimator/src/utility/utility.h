@@ -16,8 +16,8 @@ class Utility
         Eigen::Quaternion<Scalar_t> dq;
         Eigen::Matrix<Scalar_t, 3, 1> half_theta = theta;
         half_theta /= static_cast<Scalar_t>(2.0);
-        dq.w() = static_cast<Scalar_t>(1.0);
-        dq.x() = half_theta.x();
+        dq.w() = static_cast<Scalar_t>(1.0);  //按照原始公式，这里应该是cos项，为了计算效率，小角度的cos值直接等于1
+        dq.x() = half_theta.x();  //按照原始公式，这里应该是sin项，为了计算效率，小角度的sin值直接等于0
         dq.y() = half_theta.y();
         dq.z() = half_theta.z();
         return dq;
