@@ -105,7 +105,7 @@ void Estimator::processIMU(double dt, const Vector3d &linear_acceleration, const
         linear_acceleration_buf[frame_count].push_back(linear_acceleration);
         angular_velocity_buf[frame_count].push_back(angular_velocity);
 
-        // 用IMU数据进行积分，当积完一个measurement中所有IMU数据后，就得到了对应图像帧在世界坐标系中的Ps、Vs、Rs   参照论文公式（23）
+        // 用IMU数据进行积分，当积完一个measurement中所有IMU数据后，就得到了对应图像帧的imu体坐标系在世界坐标系中的Ps、Vs、Rs   参照论文公式（23）
         // 下面这一部分的积分，在没有成功完成初始化时似乎是没有意义的，因为在没有成功初始化时，对IMU数据来说是没有世界坐标系的
         // 当成功完成了初始化后，下面这一部分积分才有用，它可以通过IMU积分得到滑动窗口中最新帧在世界坐标系中的
         int j = frame_count;         // 滑动窗口的图像索引
