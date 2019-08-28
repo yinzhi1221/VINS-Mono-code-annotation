@@ -141,8 +141,12 @@ getMeasurements()
         // 一帧图像特征点数据，对应多帧imu数据,把它们进行对应，然后塞入measurements
         // 一帧图像特征点数据，与它和上一帧图像特征点数据之间的时间间隔内所有的IMU数据，以及时间戳晚于当前帧图像的第一帧IMU数据对应
         // 如下图所示：
-        //   *             *             *             *             *            （IMU数据）
-        //                                                      |                 （图像特征点数据）
+        //                          时间轴：      早                              晚
+        //                                      ---------------------------->
+        //                          
+        //                     信号运动方向：       <---------------------------          信号生成器固定
+        //   *             *             *             *             *            ：---（IMU数据）
+        //                                                      |                 ：---（图像特征点数据）
         while (imu_buf.front()->header.stamp.toSec() < img_msg->header.stamp.toSec() + estimator.td)
         {
             IMUs.emplace_back(imu_buf.front());
